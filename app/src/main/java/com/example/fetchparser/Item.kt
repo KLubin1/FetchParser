@@ -1,6 +1,6 @@
 package com.example.fetchparser
 
-data class Person(
+data class Item(
     val id:Long,
     val listId:Int,
     val name:String)

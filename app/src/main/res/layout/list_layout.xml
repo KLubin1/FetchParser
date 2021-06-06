@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/linerLayout"
+    android:padding="5dp">
+    <TextView
+        android:id="@+id/itemIdView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:textSize="16dp"
+        android:text="ItemId"
+        android:textStyle="bold">
+
+    </TextView>
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:textSize="16dp"
+        android:text="Name">
+
+    </TextView>
+    <TextView
+        android:id="@+id/idView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:textSize="16dp"
+        android:text="Id">
+
+    </TextView>
+
+
+</LinearLayout>

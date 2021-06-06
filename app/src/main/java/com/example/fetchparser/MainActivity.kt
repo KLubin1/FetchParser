@@ -1,35 +1,74 @@
 package com.example.fetchparser
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import android.widget.ListView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-
-import java.net.HttpURLConnection
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity()
 {
+    //listview
+    lateinit var list:ListView
+    //list of items
+    var itemList:ArrayList<Item> = ArrayList()
+    //url
+    val url = "https://fetch-hiring.s3.amazonaws.com/hiring.json"
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textview = findViewById<TextView>(R.id.textView1)
+        list = findViewById(R.id.listView)
 
-        val queue = Volley.newRequestQueue(this)
-        val url = "https://fetch-hiring.s3.amazonaws.com/hiring.json"
-        // use get metod to retrieve and store json in stringRequest
+        //set tool bar title
+        supportActionBar?.setTitle("Items")
+
+       // set up a request cue to call request
+        val requestQueue = Volley.newRequestQueue(this)
+
+        // use GET method to retrieve and store json in stringRequest
         val stringRequest = StringRequest(
             Request.Method.GET, url,
-            Response.Listener<String>{ response-> textview.text = "Response: ${response.substring(0,500)}"
+                { response->
+                    //now that response has the json, parse it here
+                    // get array from response
+                    val jsonArray: JSONArray = JSONArray(response)
+                    //loop through array
+                    val size:Int = jsonArray.length()
+                    for(i in 0 until size-1)
+                    {
+                        //get object from array
+                        var info:JSONObject = jsonArray.getJSONObject(i)
+                        // populate item details w/ json info
+                        var item = Item(
+                                id = info.getLong("id"),
+                                listId = info.getInt("listId"),
+                                name = info.getString("name")
+                        )
+                        // if name is "null" or "", don't add to list
+                        if(item.name != "null" && item.name != "")
+                            itemList.add(item)
+                    }
+                    // sort the results first by "listId" then by "name"
+                    itemList.sortWith(compareBy({it.listId},{it.name}))
 
-        },
-        Response.ErrorListener { textview.text = "No Response" })
+                    // pass list into list adapter and display
+                    val listAdapter:ListAdapter
+                    listAdapter = ListAdapter(this, itemList)
+                    list.adapter = listAdapter
 
-        //now that string  request has the json, its time to parse it
-        queue.add(stringRequest)
+            },
+                {
+                    Toast.makeText(this, "Error: No Response", Toast.LENGTH_SHORT)
+                })
+
+        requestQueue.add(stringRequest)
+
     }
 
 
