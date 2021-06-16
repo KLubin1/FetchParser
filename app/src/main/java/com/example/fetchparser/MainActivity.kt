@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity()
         list = findViewById(R.id.listView)
 
         //set tool bar title
-        supportActionBar?.setTitle("Items")
+        supportActionBar?.setTitle(R.string.toolBarTitle)
 
        // set up a request cue to call request
         val requestQueue = Volley.newRequestQueue(this)
@@ -61,10 +61,11 @@ class MainActivity : AppCompatActivity()
                     val listAdapter:ListAdapter
                     listAdapter = ListAdapter(this, itemList)
                     list.adapter = listAdapter
+                    //Toast.makeText(this, "Error: No Response", Toast.LENGTH_SHORT)
 
             },
                 {
-                    Toast.makeText(this, "Error: No Response", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Error: No Response", Toast.LENGTH_SHORT).show()
                 })
 
         requestQueue.add(stringRequest)

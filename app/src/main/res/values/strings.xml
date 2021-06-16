@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FetchParser</string>
+    <string name="itemid">ItemId</string>
+    <string name="name">Name</string>
+    <string name="id">Id</string>
+    <string name="toolBarTitle">Items</string>
+    <string name="url">https://fetch-hiring.s3.amazonaws.com/hiring.json</string>
 </resources>
